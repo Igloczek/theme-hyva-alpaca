@@ -1,0 +1,37 @@
+<?php
+$assetsRaw = file_get_contents(dirname(__FILE__, 3) . '/web/manifest.json');
+
+if (!$assetsRaw) {
+    throw new \Exception('Could not load manifest.json');
+}
+
+$assetsList = json_decode($assetsRaw, true);
+$entryPoints = array_filter($assetsList, function ($asset) {
+    return isset($asset['isEntry']);
+});
+
+$assetsToLoad = [];
+
+array_push($assetsToLoad, $entryPoints['scripts/global.js']);
+
+$layoutHandle = $this->getRequest()->getFullActionName();
+if (isset($entryPoints['scripts/' . $layoutHandle . '.js'])) {
+    array_push($assetsToLoad, $entryPoints['scripts/' . $layoutHandle . '.js']);
+}
+?>
+
+<?php foreach ($assetsToLoad as $asset): ?>
+    <?php if (isset($asset['css'])): ?>
+        <?php foreach ($asset['css'] as $stylesheet): ?>
+            <link rel="stylesheet" href="<?= $this->getViewFileUrl($stylesheet) ?>">
+        <?php endforeach ?>
+    <?php endif ?>
+
+    <?php if (isset($asset['imports'])): ?>
+        <?php foreach ($asset['imports'] as $dependency): ?>
+            <link rel="modulepreload" href="<?= $this->getViewFileUrl($assetsList[$dependency]['file']) ?>">
+        <?php endforeach ?>
+    <?php endif ?>
+
+    <script type="module" src="<?= $this->getViewFileUrl($asset['file']) ?>"></script>
+<?php endforeach ?>
