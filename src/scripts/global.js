@@ -6,3 +6,4 @@ import '../styles/style.css'
 
 // Scripts
 import './modules/alpine.js'
+import './modules/cookies.js'

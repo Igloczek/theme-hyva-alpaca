@@ -1,37 +1,51 @@
 <?php
-$assetsRaw = file_get_contents(dirname(__FILE__, 3) . '/web/manifest.json');
-
-if (!$assetsRaw) {
-    throw new \Exception('Could not load manifest.json');
-}
-
-$assetsList = json_decode($assetsRaw, true);
-$entryPoints = array_filter($assetsList, function ($asset) {
-    return isset($asset['isEntry']);
-});
-
-$assetsToLoad = [];
-
-array_push($assetsToLoad, $entryPoints['scripts/global.js']);
-
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$appState = $objectManager->get('Magento\Framework\App\State');
+$mode = $appState->getMode();
 $layoutHandle = $this->getRequest()->getFullActionName();
-if (isset($entryPoints['scripts/' . $layoutHandle . '.js'])) {
-    array_push($assetsToLoad, $entryPoints['scripts/' . $layoutHandle . '.js']);
-}
 ?>
 
-<?php foreach ($assetsToLoad as $asset): ?>
-    <?php if (isset($asset['css'])): ?>
-        <?php foreach ($asset['css'] as $stylesheet): ?>
-            <link rel="stylesheet" href="<?= $this->getViewFileUrl($stylesheet) ?>">
-        <?php endforeach ?>
-    <?php endif ?>
+<?php if ($mode === 'developer'): ?>
+    <!-- TODO: Show message when Vite is not running -->
+    <script type="module" src="https://localhost:3000/@vite/client"></script>
+    <script type="module" src="https://localhost:3000/scripts/global.js"></script>
+    <script type="module" src="https://localhost:3000/scripts/<?= $layoutHandle ?>.js"></script>
+<?php else: ?>
+    <?php
+    // TODO: Handle exceptions (for example file not exist)
+    $assetsRaw = file_get_contents(dirname(__FILE__, 3) . '/web/dist/manifest.json');
 
-    <?php if (isset($asset['imports'])): ?>
-        <?php foreach ($asset['imports'] as $dependency): ?>
-            <link rel="modulepreload" href="<?= $this->getViewFileUrl($assetsList[$dependency]['file']) ?>">
-        <?php endforeach ?>
-    <?php endif ?>
+    if (!$assetsRaw) {
+        throw new \Exception('Could not load manifest.json');
+    }
 
-    <script type="module" src="<?= $this->getViewFileUrl($asset['file']) ?>"></script>
-<?php endforeach ?>
+    $assetsList = json_decode($assetsRaw, true);
+    $entryPoints = array_filter($assetsList, function ($asset) {
+        return isset($asset['isEntry']);
+    });
+
+    $assetsToLoad = [];
+
+    array_push($assetsToLoad, $entryPoints['scripts/global.js']);
+
+    if (isset($entryPoints['scripts/' . $layoutHandle . '.js'])) {
+        array_push($assetsToLoad, $entryPoints['scripts/' . $layoutHandle . '.js']);
+    }
+    ?>
+
+    <?php foreach ($assetsToLoad as $asset): ?>
+        <?php if (isset($asset['css'])): ?>
+            <?php foreach ($asset['css'] as $stylesheet): ?>
+                <link rel="stylesheet" href="<?= $this->getViewFileUrl($stylesheet) ?>">
+            <?php endforeach ?>
+        <?php endif ?>
+
+        <?php if (isset($asset['imports'])): ?>
+            <?php foreach ($asset['imports'] as $dependency): ?>
+                <link rel="modulepreload" href="<?= $this->getViewFileUrl($assetsList[$dependency]['file']) ?>">
+            <?php endforeach ?>
+        <?php endif ?>
+
+        <script type="module" src="<?= $this->getViewFileUrl($asset['file']) ?>"></script>
+    <?php endforeach ?>
+<?php endif ?>
