@@ -1,4 +1,2 @@
 [*]
   indent_size = 2
-[*.phtml]
-  indent_size = 4

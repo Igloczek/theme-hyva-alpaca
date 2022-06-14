@@ -1,5 +1,14 @@
 module.exports = {
-  trailingComma: 'none',
+  plugins: [
+    require('prettier-plugin-tailwindcss'),
+    require('@prettier/plugin-xml')
+  ],
+
+  // Core
   semi: false,
-  singleQuote: true
+  singleQuote: true,
+  trailingComma: 'none',
+
+  // XML Plugin
+  xmlWhitespaceSensitivity: 'ignore'
 }
