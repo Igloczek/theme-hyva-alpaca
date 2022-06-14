@@ -5,6 +5,7 @@ specifiers:
   alpinejs: ^3.10.2
   autoprefixer: ^10.4.7
   postcss: ^8.4.14
+  prettier: ^2.7.0
   tailwindcss: ^3.0.24
   vite: ^2.9.9
   vite-plugin-mkcert: ^1.7.1
@@ -16,6 +17,7 @@ dependencies:
 devDependencies:
   autoprefixer: 10.4.7_postcss@8.4.14
   postcss: 8.4.14
+  prettier: 2.7.0
   tailwindcss: 3.0.24
   vite: 2.9.10
   vite-plugin-mkcert: 1.7.1
@@ -788,6 +790,12 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
+    dev: true
+
+  /prettier/2.7.0:
+    resolution: {integrity: sha512-nwoX4GMFgxoPC6diHvSwmK/4yU8FFH3V8XWtLQrbj4IBsK2pkYhG4kf/ljF/haaZ/aii+wNJqISrCDPgxGWDVQ==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: true
 
   /queue-microtask/1.2.3:
