@@ -17,34 +17,17 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
 $storeConfig = $viewModels->require(Hyva\Theme\ViewModel\StoreConfig::class);
 $showMiniCart = $storeConfig->getStoreConfig(\Magento\Checkout\Block\Cart\Sidebar::XML_PATH_CHECKOUT_SIDEBAR_DISPLAY);
 ?>
-<script>
-    function initHeader () {
-        return {
-            searchOpen: false,
-            cart: {},
-            getData(data) {
-                if (data.cart) { this.cart = data.cart }
-            }
-        }
-    }
-    function initCompareHeader() {
-        return {
-            compareProducts: null,
-            itemCount: 0,
-            receiveCompareData(data) {
-                if (data['compare-products']) {
-                    this.compareProducts = data['compare-products'];
-                    this.itemCount = this.compareProducts.count;
-                }
-            }
-        }
-    }
-</script>
 
 <div
     id="header"
     class="relative z-30 w-full border-b shadow bg-red-200 border-container-lighter"
-    x-data="initHeader()"
+    x-data="{
+        searchOpen: false,
+        cart: {},
+        getData(data) {
+            if (data.cart) { this.cart = data.cart }
+        }
+    }"
     @keydown.window.escape="searchOpen = false;"
     @private-content-loaded.window="getData(event.detail.data)"
 >
@@ -63,7 +46,16 @@ $showMiniCart = $storeConfig->getStoreConfig(\Magento\Checkout\Block\Cart\Sideba
                 :class="{ 'invisible': !(itemCount > 0) }"
                 href="<?= $escaper->escapeUrl($block->getUrl('catalog/product_compare/index')) ?>"
                 title="<?= $escaper->escapeHtml(__('Compare Products')) ?>"
-                x-data="initCompareHeader()"
+                x-data="{
+                    compareProducts: null,
+                    itemCount: 0,
+                    receiveCompareData(data) {
+                        if (data['compare-products']) {
+                            this.compareProducts = data['compare-products'];
+                            this.itemCount = this.compareProducts.count;
+                        }
+                    }
+                }"
                 @private-content-loaded.window="receiveCompareData($event.detail.data)"
             >
                 <?= $heroicons->scaleHtml(
