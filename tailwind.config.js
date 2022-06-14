@@ -4,10 +4,10 @@ module.exports = {
     '../../../../../vendor/hyva-themes/magento2-default-theme/**/*.phtml'
   ],
   theme: {
-    extend: {},
+    extend: {}
   },
   variants: {
-    extend: {},
+    extend: {}
   },
-  plugins: [],
+  plugins: []
 }

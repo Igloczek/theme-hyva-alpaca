@@ -1,5 +1,5 @@
-import fs from 'node:fs/promises';
-import mkcert from'vite-plugin-mkcert'
+import fs from 'node:fs/promises'
+import mkcert from 'vite-plugin-mkcert'
 
 const files = await fs.readdir('./src/scripts', {})
 const entryPoints = files.reduce((obj, file) => {
@@ -9,8 +9,7 @@ const entryPoints = files.reduce((obj, file) => {
 
   obj[file.replace('.js', '')] = `./src/scripts/${file}`
   return obj
-}, {});
-
+}, {})
 
 export default {
   root: './src',
@@ -20,9 +19,7 @@ export default {
     hmr: {
       host: 'localhost'
     },
-    watch: [
-      './**/*.phtml',
-    ]
+    watch: ['./**/*.phtml']
   },
   plugins: [
     mkcert(),
