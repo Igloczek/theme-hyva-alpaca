@@ -19,145 +19,141 @@ $showMiniCart = $storeConfig->getStoreConfig(\Magento\Checkout\Block\Cart\Sideba
 ?>
 
 <div
-    id="header"
-    class="relative z-30 w-full border-b shado border-container-lighter"
-    x-data="{
-        searchOpen: false,
-        cart: {},
-        getData(data) {
-            if (data.cart) { this.cart = data.cart }
-        }
-    }"
-    @keydown.window.escape="searchOpen = false;"
-    @private-content-loaded.window="getData(event.detail.data)"
+  id="header"
+  class="relative z-30 w-full border-b shado border-container-lighter"
+  x-data="{
+    searchOpen: false,
+    cart: {},
+    getData(data) {
+      if (data.cart) { this.cart = data.cart }
+    }
+  }"
+  @keydown.window.escape="searchOpen = false;"
+  @private-content-loaded.window="getData(event.detail.data)"
 >
-    <div class="container flex flex-wrap items-center justify-between w-full px-6 py-3 mx-auto mt-0">
-        <!--Logo-->
-        <?= $block->getChildHtml('logo'); ?>
 
-        <!--Main Navigation-->
-        <?= $block->getChildHtml('topmenu') ?>
+  <div class="container flex flex-wrap items-center justify-between w-full px-6 py-3 mx-auto mt-0">
+    <!--Logo-->
+    <?= $block->getChildHtml('logo'); ?>
 
-        <div class="flex items-center order-3">
-            <!--Compare Icon-->
-            <a
-                id="compare-link"
-                class="relative invisible inline-block mx-1 no-underline sm:ml-3 hover:text-black"
-                :class="{ 'invisible': !(itemCount > 0) }"
-                href="<?= $escaper->escapeUrl($block->getUrl('catalog/product_compare/index')) ?>"
-                title="<?= $escaper->escapeHtml(__('Compare Products')) ?>"
-                x-data="{
-                    compareProducts: null,
-                    itemCount: 0,
-                    receiveCompareData(data) {
-                        if (data['compare-products']) {
-                            this.compareProducts = data['compare-products'];
-                            this.itemCount = this.compareProducts.count;
-                        }
-                    }
-                }"
-                @private-content-loaded.window="receiveCompareData($event.detail.data)"
-            >
-                <?= $heroicons->scaleHtml(
-                    "w-8 h-8 md:h-6 md:w-6 hover:text-black",
-                    25,
-                    25
-                ) ?>
+    <!--Main Navigation-->
+    <?= $block->getChildHtml('topmenu') ?>
 
-                <span class="sr-only label">
-                   <?= $escaper->escapeHtml(__('Compare Products')) ?>
-                </span>
+    <div class="flex items-center order-3">
+      <!--Compare Icon-->
+      <a
+        id="compare-link"
+        class="relative invisible inline-block mx-1 no-underline sm:ml-3 hover:text-black"
+        :class="{ 'invisible': !(itemCount > 0) }"
+        href="<?= $escaper->escapeUrl($block->getUrl('catalog/product_compare/index')) ?>"
+        title="<?= $escaper->escapeHtml(__('Compare Products')) ?>"
+        x-data="{
+          compareProducts: null,
+          itemCount: 0,
+          receiveCompareData(data) {
+            if (data['compare-products']) {
+              this.compareProducts = data['compare-products'];
+              this.itemCount = this.compareProducts.count;
+            }
+          }
+        }"
+        @private-content-loaded.window="receiveCompareData($event.detail.data)"
+      >
+        <?= $heroicons->scaleHtml("w-8 h-8 md:h-6 md:w-6 hover:text-black", 25, 25) ?>
 
-                <span class="absolute top-0 right-0 h-5 px-2 py-1 -mt-5 -mr-4 text-xs font-semibold
-                    leading-none text-center text-white uppercase transform -translate-x-1
-                    translate-y-1/2 bg-yellow-500 rounded-full"
-                >
-                    <span x-text="itemCount"></span>
-                    <span x-show="itemCount === 1" class="sr-only">
-                        <?= $escaper->escapeHtml(__('item')) ?>
-                    </span>
-                    <span x-show="itemCount > 1" class="sr-only">
-                        <?= $escaper->escapeHtml(__('items')) ?>
-                    </span>
-                </span>
-            </a>
+        <span class="sr-only label">
+          <?= $escaper->escapeHtml(__('Compare Products')) ?>
+        </span>
 
-            <?=
-                $block
-                  ->getLayout()
-                  ->createBlock('Magento\Framework\View\Element\Template')
-                  ->setTemplate('atoms/button/button.phtml')
-                  ->setData([
-                    'type' => 'test',
-                    'text' => 'Button'
-                  ])
-                  ->toHtml();
-            ?>
+        <span
+          class="absolute top-0 right-0 h-5 px-2 py-1 -mt-5 -mr-4 text-xs font-semibold leading-none text-center text-white uppercase transform -translate-x-1 translate-y-1/2 bg-yellow-500 rounded-full"
+        >
+          <span x-text="itemCount"></span>
 
-            <!--Search Icon-->
-            <button
-                id="menu-search-icon"
-                class="inline-block ml-1 no-underline sm:ml-3 hover:text-black"
-                @click.prevent="
-                    searchOpen = !searchOpen;
-                    $nextTick(function () { document.querySelector('#search').select(); });
-                "
-            >
-                <span class="sr-only label">
-                    <?= $escaper->escapeHtml(__('Search')) ?>
-                </span>
+          <span x-show="itemCount === 1" class="sr-only">
+            <?= $escaper->escapeHtml(__('item')) ?>
+          </span>
+          <span x-show="itemCount > 1" class="sr-only">
+            <?= $escaper->escapeHtml(__('items')) ?>
+          </span>
+        </span>
+      </a>
 
-                <?= $heroicons->searchHtml(
-                    "w-8 h-8 md:h-6 md:w-6 hover:text-black",
-                    25,
-                    25
-                ) ?>
-            </button>
+      <?=
+        $block
+          ->getLayout()
+          ->createBlock('Magento\Framework\View\Element\Template')
+          ->setTemplate('atoms/button/button.phtml')
+          ->setData([
+            'type' => 'test',
+            'text' => 'Button'
+          ])
+          ->toHtml();
+      ?>
 
-            <!--Customer Icon & Dropdown-->
-            <?= $block->getChildHtml('customer') ?>
+      <!--Search Icon-->
+      <button
+        id="menu-search-icon"
+        class="inline-block ml-1 no-underline sm:ml-3 hover:text-black"
+        @click.prevent="
+          searchOpen = !searchOpen;
+          $nextTick(function () {
+            document.querySelector('#search').select();
+          });
+        "
+      >
+        <span class="sr-only label">
+          <?= $escaper->escapeHtml(__('Search')) ?>
+        </span>
 
-            <!--Cart Icon-->
-            <a id="menu-cart-icon"
-               <?php if ($showMiniCart): ?>@click.prevent.stop="$dispatch('toggle-cart',{});"<?php endif ?>
-               class="relative inline-block ml-1 no-underline sm:ml-3 hover:text-black"
-               href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>"
-            >
-                <span class="sr-only label">
-                    <?= $escaper->escapeHtml(__('Cart')) ?>
-                </span>
+        <?= $heroicons->searchHtml("w-8 h-8 md:h-6 md:w-6 hover:text-black", 25, 25) ?>
+      </button>
 
-                <?= $heroicons->shoppingCartHtml(
-                    "w-8 h-8 md:h-6 md:w-6 hover:text-black",
-                    25,
-                    25
-                ) ?>
+      <!--Customer Icon & Dropdown-->
+      <?= $block->getChildHtml('customer') ?>
 
-                <span x-text="cart.summary_count"
-                      class="absolute top-0 right-0 hidden h-5 px-2 py-1 -mt-5 -mr-4 text-xs font-semibold
-                        leading-none text-center text-white uppercase transform -translate-x-1
-                        translate-y-1/2 rounded-full bg-primary"
-                      :class="{
-                        'hidden': !cart.summary_count,
-                        'block': cart.summary_count }"
-                ></span>
-            </a>
+      <!--Cart Icon-->
+      <a
+        id="menu-cart-icon"
+        class="relative inline-block ml-1 no-underline sm:ml-3 hover:text-black"
+        href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>"
+        <?php if ($showMiniCart): ?>@click.prevent.stop="$dispatch('toggle-cart',{});"<?php endif ?>
+      >
+        <span class="sr-only label">
+          <?= $escaper->escapeHtml(__('Cart')) ?>
+        </span>
 
-        </div>
+        <?= $heroicons->shoppingCartHtml("w-8 h-8 md:h-6 md:w-6 hover:text-black", 25, 25) ?>
+
+        <span
+          x-text="cart.summary_count"
+          class="absolute top-0 right-0 hidden h-5 px-2 py-1 -mt-5 -mr-4 text-xs font-semibold leading-none text-center text-white uppercase transform -translate-x-1 translate-y-1/2 rounded-full bg-primary"
+          :class="{
+            'hidden': !cart.summary_count,
+            'block': cart.summary_count
+          }"
+        ></span>
+      </a>
     </div>
-    <!--Search-->
-    <div class="absolute z-10 hidden w-full border-t shadow-sm bg-container-lighter border-container-lighter"
-         id="search-content"
-         :class="{ 'block': searchOpen, 'hidden': !searchOpen }"
-         @click.away="searchOpen = false"
-         x-show="true"
-    >
-        <?= $block->getChildHtml('header-search'); ?>
-    </div>
+  </div>
 
-    <!--Cart Drawer-->
-    <?= $block->getChildHtml('cart-drawer'); ?>
+  <!--Search-->
+  <div
+    id="search-content"
+    class="absolute z-10 hidden w-full border-t shadow-sm bg-container-lighter border-container-lighter"
+    :class="{
+      'block': searchOpen,
+      'hidden': !searchOpen
+    }"
+    @click.away="searchOpen = false"
+    x-show="true"
+  >
+    <?= $block->getChildHtml('header-search'); ?>
+  </div>
 
-    <!--Authentication Pop-Up-->
-    <?= $block->getChildHtml('authentication-popup'); ?>
+  <!--Cart Drawer-->
+  <?= $block->getChildHtml('cart-drawer'); ?>
+
+  <!--Authentication Pop-Up-->
+  <?= $block->getChildHtml('authentication-popup'); ?>
 </div>
