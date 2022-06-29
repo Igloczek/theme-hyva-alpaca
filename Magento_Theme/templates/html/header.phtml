@@ -20,7 +20,7 @@ $showMiniCart = $storeConfig->getStoreConfig(\Magento\Checkout\Block\Cart\Sideba
 
 <div
     id="header"
-    class="relative z-30 w-full border-b shadow bg-red-200 border-container-lighter"
+    class="relative z-30 w-full border-b shado border-container-lighter"
     x-data="{
         searchOpen: false,
         cart: {},
@@ -81,6 +81,18 @@ $showMiniCart = $storeConfig->getStoreConfig(\Magento\Checkout\Block\Cart\Sideba
                     </span>
                 </span>
             </a>
+
+            <?=
+                $block
+                  ->getLayout()
+                  ->createBlock('Magento\Framework\View\Element\Template')
+                  ->setTemplate('atoms/button/button.phtml')
+                  ->setData([
+                    'type' => 'test',
+                    'text' => 'Button'
+                  ])
+                  ->toHtml();
+            ?>
 
             <!--Search Icon-->
             <button
