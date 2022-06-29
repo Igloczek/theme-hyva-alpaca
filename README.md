@@ -1,13 +1,11 @@
 # Magento 2 Hyva theme with Alpaca Next flavors
-Proof of concept
+Have in mind it's just proof of concept and I'm not going to work on it anymore, but you can :)
 ## What is this repo all about?
 During Reacticon V4 in late 2021, I've introduced concept of Alpaca Next, a Magento theme that makes some things very differently.
 
 [You can watch a recording of my talk if you want to learn more about the initial idea](https://www.youtube.com/watch?v=5cSNr3LYgY4).
 
 Unfortunately, I failed with execution of this idea, and now I'm leaving the Snowdog, and most likely I'm not going to have anything in common with Magento, but want to show you one more thing, a theme based on Hyva, but with some features from Alpaca Next.
-
-Have in mind it's just proof of concept and I'm not going to work on it anymore, but you can :)
 
 ## Reasoning
 Hyva is clearly the best thing that happen to Magento 2 developers. Period.
