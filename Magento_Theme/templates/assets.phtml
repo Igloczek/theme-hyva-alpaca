@@ -1,4 +1,5 @@
 <?php
+// I know, I know, but it's just PoC 😚
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $appState = $objectManager->get('Magento\Framework\App\State');
 $mode = $appState->getMode();
@@ -6,17 +7,19 @@ $layoutHandle = $this->getRequest()->getFullActionName();
 ?>
 
 <?php if ($mode === 'developer'): ?>
-    <!-- TODO: Show message when Vite is not running -->
-    <script type="module" src="https://localhost:3000/@vite/client"></script>
-    <script type="module" src="https://localhost:3000/scripts/global.js"></script>
-    <script type="module" src="https://localhost:3000/scripts/<?= $layoutHandle ?>.js"></script>
+  <!-- TODO: Show message when Vite is not running -->
+  <script type="module" src="https://localhost:3000/@vite/client"></script>
+  <script type="module" src="https://localhost:3000/scripts/global.js"></script>
+  <script type="module" src="https://localhost:3000/scripts/<?= $layoutHandle ?>.js"></script>
 <?php else: ?>
-    <?php
+  <?php
     // TODO: Handle exceptions (for example file not exist)
+
+    // I know, I know, but it's just PoC 😚
     $assetsRaw = file_get_contents(dirname(__FILE__, 3) . '/web/dist/manifest.json');
 
     if (!$assetsRaw) {
-        throw new \Exception('Could not load manifest.json');
+      throw new \Exception('Could not load manifest.json');
     }
 
     $assetsList = json_decode($assetsRaw, true);
@@ -29,23 +32,23 @@ $layoutHandle = $this->getRequest()->getFullActionName();
     array_push($assetsToLoad, $entryPoints['scripts/global.js']);
 
     if (isset($entryPoints['scripts/' . $layoutHandle . '.js'])) {
-        array_push($assetsToLoad, $entryPoints['scripts/' . $layoutHandle . '.js']);
+      array_push($assetsToLoad, $entryPoints['scripts/' . $layoutHandle . '.js']);
     }
-    ?>
+  ?>
 
-    <?php foreach ($assetsToLoad as $asset): ?>
-        <?php if (isset($asset['css'])): ?>
-            <?php foreach ($asset['css'] as $stylesheet): ?>
-                <link rel="stylesheet" href="<?= $this->getViewFileUrl($stylesheet) ?>">
-            <?php endforeach ?>
-        <?php endif ?>
+  <?php foreach ($assetsToLoad as $asset): ?>
+    <?php if (isset($asset['css'])): ?>
+      <?php foreach ($asset['css'] as $stylesheet): ?>
+        <link rel="stylesheet" href="<?= $this->getViewFileUrl($stylesheet) ?>">
+      <?php endforeach ?>
+    <?php endif ?>
 
-        <?php if (isset($asset['imports'])): ?>
-            <?php foreach ($asset['imports'] as $dependency): ?>
-                <link rel="modulepreload" href="<?= $this->getViewFileUrl($assetsList[$dependency]['file']) ?>">
-            <?php endforeach ?>
-        <?php endif ?>
+    <?php if (isset($asset['imports'])): ?>
+      <?php foreach ($asset['imports'] as $dependency): ?>
+        <link rel="modulepreload" href="<?= $this->getViewFileUrl($assetsList[$dependency]['file']) ?>">
+      <?php endforeach ?>
+    <?php endif ?>
 
-        <script type="module" src="<?= $this->getViewFileUrl($asset['file']) ?>"></script>
-    <?php endforeach ?>
+    <script type="module" src="<?= $this->getViewFileUrl($asset['file']) ?>"></script>
+  <?php endforeach ?>
 <?php endif ?>
