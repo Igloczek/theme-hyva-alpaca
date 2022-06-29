@@ -7,12 +7,12 @@ Unfortunately, I failed with execution of this idea, and now I'm leaving the Sno
 
 Have in mind it's just proof of concept.
 
-# Resoning
+# Reasoning
 Hyva is clearly the best thing that happen to Magento 2 developers. Period.
 
 But I'm not a Magento developer in understanding of the most people and companies, I don't give a damn about PHP, I don't write modules, I'm not a fan of XML layouts and probably few other things that might be considered as typical Magento development.
 
-I like my big `node_modules`, I like my bundlers, I like my linters, I like when JS code is in JS files, I like when my tools are written in a language I understands. I know, in medieval times they would burn me alive 😂
+I like my big `node_modules`, I like my bundlers, I like my linters, I like when JS code is in JS files, I like when my tools are written in a language I understand. I know, in medieval times they would burn me alive 😂
 
 In my opinion, Hyva is built for people that identify as Magento developers, and that's great, but it implies, that's not for me.
 
@@ -38,13 +38,13 @@ Since Vite requires entry points for compilation, there is a `global.js` that wi
 Optionally, you can create files with any layout handle to load stuff just when is needed, for example `cms_index_index.js` if you want something just on the home page.
 
 # Components
-For me components needs to be reusable, contain markup, logic and styles, and be centralized, so you edit in one place, but it's updated everywhere.
+For me, components needs to be reusable, contain markup, logic and styles, and be centralized, so you edit in one place, but it's updated everywhere.
 
 That's why I've added a sample component to the `templates` directory and then imported it in `Magento_Theme/templates/html/header.phtml` (line 82).
 
 Usage is not ideal, mostly due to lack of slot capabilities of Magento blocks and lack of partials like in Twig (via `include`), but I'd say it's better than nothing.
 
-For sure it can be wrapped in some abstraction to require less code and better performance (I believe that creating tons of blocks dynamically might not be ideal, but no one said that life of a person who is not in love with XML will be easy 😅)
+For sure, it can be wrapped in some abstraction to require less code and better performance (I believe that creating tons of blocks dynamically might not be ideal, but no one said that life of a person who is not in love with XML will be easy 😅)
 
 I know I can use `getChildHtml` but it requires creating another block to set as a child, which is far from what slots should look like to be easy to use, so from my perspective it's easier to pass down already rendered HTML or just some text.
 
